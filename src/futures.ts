@@ -65,6 +65,7 @@ export function handlePositionModified(event: PositionModifiedEvent): void {
     statEntity.pnlWithFeesPaid = ZERO;
     statEntity.liquidations = ZERO;
     statEntity.totalTrades = ZERO;
+    statEntity.totalVolume = ZERO;
   }
   if (event.params.tradeSize.isZero() == false) {
     let tradeEntity = new FuturesTrade(event.transaction.hash.toHex() + '-' + event.logIndex.toString());
@@ -123,6 +124,9 @@ export function handlePositionModified(event: PositionModifiedEvent): void {
     if (exitPrice) {
       statEntity.pnl = statEntity.pnl.plus(
         positionEntity.size.times(exitPrice.minus(positionEntity.entryPrice)).div(ETHER),
+      );
+      statEntity.totalVolume = statEntity.totalVolume.plus(
+        positionEntity.size.times(positionEntity.entryPrice).div(ETHER),
       );
     }
   } else {
