@@ -101,6 +101,10 @@ manifest.push({
         event: 'MarginTransferred(indexed address,int256)',
         handler: 'handleMarginTransferredBTC',
       },
+      {
+        event: 'PositionModified(indexed uint256,indexed address,uint256,int256,int256,uint256,uint256,uint256)',
+        handler: 'handlePositionModified',
+      },
     ],
   },
 });
@@ -132,6 +136,10 @@ manifest.push({
         event: 'MarginTransferred(indexed address,int256)',
         handler: 'handleMarginTransferredETH',
       },
+      {
+        event: 'PositionModified(indexed uint256,indexed address,uint256,int256,int256,uint256,uint256,uint256)',
+        handler: 'handlePositionModified',
+      },
     ],
   },
 });
@@ -162,6 +170,10 @@ manifest.push({
       {
         event: 'MarginTransferred(indexed address,int256)',
         handler: 'handleMarginTransferredLINK',
+      },
+      {
+        event: 'PositionModified(indexed uint256,indexed address,uint256,int256,int256,uint256,uint256,uint256)',
+        handler: 'handlePositionModified',
       },
     ],
   },
