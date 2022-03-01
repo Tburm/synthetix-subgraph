@@ -31,9 +31,9 @@ const LINK = 'LINK';
 
 export function handleMarketAdded(event: MarketAddedEvent): void {
   let futuresMarketContract = FuturesMarketContract.bind(event.params.market);
-  let proxyAddress = futuresMarketContract.proxy();
+  // let proxyAddress = futuresMarketContract.proxy();
   // FuturesMarket.create(proxyAddress); // needed? type error: Property 'create' does not exist on type '~lib/@graphprotocol/graph-ts/chain/ethereum/ethereum.SmartContract'.
-  let marketEntity = new FuturesMarketEntity(proxyAddress.toHex());
+  let marketEntity = new FuturesMarketEntity(event.params.market.toHex());
   marketEntity.asset = event.params.asset;
   let marketStats = getOrCreateMarketStats(event.params.asset.toHex());
   marketStats.save();
@@ -49,7 +49,7 @@ export function handleMarketRemoved(event: MarketRemovedEvent): void {
 
 export function handlePositionModified(event: PositionModifiedEvent): void {
   let futuresMarketContract = FuturesMarketContract.bind(event.transaction.to as Address);
-  let proxyAddress = futuresMarketContract.proxy();
+  let proxyAddress = event.transaction.to as Address;
   let positionId = proxyAddress.toHex() + '-' + event.params.id.toHex();
   let statId = event.params.account.toHex();
   let marketEntity = FuturesMarketEntity.load(proxyAddress.toHex());
@@ -144,7 +144,7 @@ export function handlePositionModified(event: PositionModifiedEvent): void {
 
 export function handlePositionLiquidated(event: PositionLiquidatedEvent): void {
   let futuresMarketContract = FuturesMarketContract.bind(event.transaction.to as Address);
-  let proxyAddress = futuresMarketContract.proxy();
+  let proxyAddress = event.transaction.to as Address;
   let positionId = proxyAddress.toHex() + '-' + event.params.id.toHex();
   let positionEntity = FuturesPosition.load(positionId);
   let statId = event.params.account.toHex();
